@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Pop-up </title>
+</head>
+<body>
+      <div class="container" id="container">
+               <div class="content">
+                   <input type="text" id="phone" placeholder="Enter Phone number">
+                   <button onclick="submit()">Submit</button>
+               </div> 
+            </div>
+
+
+            
+            
+             <!-- Pop-up window -->  
+  <div class="pop-up" id='popUp'>
+    <div class="lay">
+        <img src="./icons8-cell-phone-64.png" alt="" class="phoneImg">
+        <h2>Verify your contact number</h2>  
+    </div>
+
+       <div class="proceed">
+         <span>To proceed please enter the verification code sent to <br> <strong id="sentTo"></strong></span>
+         <div class="otp_code">
+             <label for="first" class="enter_opt_label">ENTER OTP</label>
+           <input type="text" maxlength="1" id="ist" onkeyup="autoFocus(this , 'sec')">
+           <input type="text" maxlength="1" id="sec" onkeyup="autoFocus(this , 'third')">
+           <input type="text" maxlength="1" id="third" onkeyup="autoFocus(this , 'fourth')">
+           <input type="text" maxlength="1"  id="fourth" onkeyup="autoFocus()">
+         </div> 
+         <br>
+          <span id="resentCode_in"> </span>
+          <a href="#" id="confirm" onclick="confirmClick()">Confirm</a>
+
+       </div>
+
+</div>
+        <div id="Welcome_popUp" class=" pop-up">
+            <div class="lay">
+                <img src="./icons8-cell-phone-64.png" alt="" class="phoneImg">
+                <h2>Dear Mr... , </h2>  
+                <h2>Welcome to Ooredoo Business</h2>  
+            </div>
+        
+               <div class="proceed">
+                 <span><strong>Ooredoo</strong> is successfully registered with us. We've sent you an email for verification<br> <span>For any issues , contect us at <strong>business@ooredoo.com</strong></span></span>
+                <div class="buttons_div">
+                    <a href="#" id="confirm" style='background: #fff; border: 2px solid red; color: red;'  onclick="confirmClick()">Login</a>
+                    <a href="#" id="confirm" style="padding: .5rem 4rem ;" onclick="exit()">Explore Our Products</a>
+                </div>
+                 </div>
+
+      <!-- Javascript  -->
+
+<script>
+  
+
+    // Declear some variables
+    var resentCode = document.getElementById('resentCode_in');
+    var countDown = 60 ;
+    var counting =true; 
+    var popuo_value = 2212;
+ 
+    function exit(){
+        location.reload()
+    }
+    function autoFocus(first , last){ // Auto Focus when Enter 1 digit
+          if (first.value.length) {
+              document.getElementById(last).focus()
+              
+          }
+     }
+     
+     function confirmClick(){
+         var ist_digit = document.getElementById('ist').value;
+         var sec_digit = document.getElementById('sec').value;
+         var third_digit = document.getElementById('third').value;
+         var fourth_digit = document.getElementById('fourth').value; 
+         let code_otp = ist_digit+''+sec_digit+''+third_digit+''+fourth_digit;
+         if (code_otp == popuo_value) {
+             document.getElementById('Welcome_popUp').classList.toggle('win_active')
+             document.getElementById('popUp').classList.remove('popup_active')
+         }
+         else{
+             alert('Code not correct')
+         }
+     }
+
+
+    function submit() {
+    //   Blur Background Container
+        var container = document.getElementById('container');
+        container.classList.toggle('active');
+
+        //   Active pop-up
+        var popUp = document.getElementById('popUp');
+        popUp.classList.toggle('popup_active');
+
+    // Getting Phone number
+       var phoneNo = document.getElementById('phone').value;  
+        var sentTo = document.getElementById('sentTo');
+        sentTo.innerHTML = phoneNo;
+        
+        // CountDowin ReSent Code
+        if (counting == true) {
+            countDowning();
+        } 
+       
+    }
+     function resentClick(){ 
+         if (counting == false || counting == true ) { 
+            counting = true;  
+            countDown= 60; 
+            countDowning(); 
+         }
+     }
+    // count down counting 
+
+    function countDowning() {  
+         var countTiming = setTimeout(countDowning , 1000)  
+         if (counting == false || counting == true) { 
+            counting = true ;
+            countDown = countDown-1; 
+            resentCode.innerHTML = `Resent in 00: ${countDown}`;
+           
+        }
+         if (countDown <= 0 && counting == true) {
+            counting = false;
+            resentCode.innerHTML = `<a href='#' class='resentCode_btn' onclick='resentClick()'>Resend</a>`;
+            clearTimeout(countTiming);
+        }          
+
+    }
+
+
+</script>
+</body>
+</html>
